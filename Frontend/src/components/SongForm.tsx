@@ -246,7 +246,7 @@ console.log('Cloudinary Config:', { cloudName, uploadPreset }); // Debug log
       formData,
       {
         headers: { 'Content-Type': 'multipart/form-data' },
-        onUploadProgress: (progressEvent) => {
+        onUploadProgress: () => {
           // Could show progress bar if desired
         },
       }

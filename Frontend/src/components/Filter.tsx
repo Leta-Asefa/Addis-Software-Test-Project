@@ -15,9 +15,7 @@ interface Props {
 const Filter: React.FC<Props> = ({ genres }) => {
   const dispatch = useDispatch();
 
-  const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const genre = e.target.value;
-    // In a real app, you'd pass genre as query param to API
+  const handleFilter = () => {
     // For simplicity, we'll just refetch all (or you could implement filter in API)
     dispatch(fetchSongsRequest()); 
     // Ideally, you'd call an API endpoint with ?genre=...

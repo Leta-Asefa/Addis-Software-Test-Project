@@ -14,7 +14,6 @@ export const getAllSongs = async (req: Request, res: Response) => {
 export const createSong = async (req: Request, res: Response) => {
   try {
     const { title, artist, album, genre,url } = req.body;
-    console.log(req.body);
     const newSong = new Song({ title, artist, album, genre,url });
     await newSong.save();
     res.status(201).json(newSong);

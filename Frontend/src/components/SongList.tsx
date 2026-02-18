@@ -11,7 +11,6 @@ import {
   Tag,
   Edit2,
   Trash2,
-  ChevronRight,
   AlertCircle
 } from 'lucide-react';
 import type { Song } from '../types';
@@ -222,10 +221,7 @@ const SkeletonCard = styled.div`
   }
 `;
 
-const shimmer = keyframes`
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-`;
+
 
 interface SongListProps {
   filterBy?: {
