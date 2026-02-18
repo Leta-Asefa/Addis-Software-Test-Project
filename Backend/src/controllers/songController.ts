@@ -1,0 +1,59 @@
+import type { Request, Response } from 'express';
+import Song from '../models/Songs.js';
+import { getStatistics } from '../utils/statistics.js';
+
+export const getAllSongs = async (req: Request, res: Response) => {
+  try {
+    const songs = await Song.find().sort({ createdAt: -1 });
+    res.json(songs);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+export const createSong = async (req: Request, res: Response) => {
+  try {
+    const { title, artist, album, genre } = req.body;
+    const newSong = new Song({ title, artist, album, genre });
+    await newSong.save();
+    res.status(201).json(newSong);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+export const updateSong = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { title, artist, album, genre } = req.body;
+    const updatedSong = await Song.findByIdAndUpdate(
+      id,
+      { title, artist, album, genre },
+      { new: true }
+    );
+    if (!updatedSong) return res.status(404).json({ message: 'Song not found' });
+    res.json(updatedSong);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+export const deleteSong = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Song.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ message: 'Song not found' });
+    res.json({ message: 'Song deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+export const getStats = async (req: Request, res: Response) => {
+  try {
+    const stats = await getStatistics();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
