@@ -14,6 +14,7 @@ import {
   deleteSongSuccess,
   deleteSongFailure,
 } from './songsSlice';
+import { fetchStatsRequest } from '../stats/statsSlice'; // <-- import
 import { type PayloadAction } from '@reduxjs/toolkit';
 import type { Song } from '../../types';
 
@@ -30,6 +31,7 @@ function* createSong(action: PayloadAction<Omit<Song, '_id'>>) {
   try {
     const response: Awaited<ReturnType<typeof api.createSong>> = yield call(api.createSong, action.payload);
     yield put(createSongSuccess(response.data));
+    yield put(fetchStatsRequest()); // refresh stats
   } catch (error: any) {
     yield put(createSongFailure(error.message));
   }
@@ -40,6 +42,7 @@ function* updateSong(action: PayloadAction<{ id: string; data: Omit<Song, '_id'>
     const { id, data } = action.payload;
     const response: Awaited<ReturnType<typeof api.updateSong>> = yield call(api.updateSong, id, data);
     yield put(updateSongSuccess(response.data));
+    yield put(fetchStatsRequest());
   } catch (error: any) {
     yield put(updateSongFailure(error.message));
   }
@@ -49,6 +52,7 @@ function* deleteSong(action: PayloadAction<string>) {
   try {
     yield call(api.deleteSong, action.payload);
     yield put(deleteSongSuccess(action.payload));
+    yield put(fetchStatsRequest());
   } catch (error: any) {
     yield put(deleteSongFailure(error.message));
   }

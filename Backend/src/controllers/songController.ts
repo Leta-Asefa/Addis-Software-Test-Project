@@ -13,8 +13,9 @@ export const getAllSongs = async (req: Request, res: Response) => {
 
 export const createSong = async (req: Request, res: Response) => {
   try {
-    const { title, artist, album, genre } = req.body;
-    const newSong = new Song({ title, artist, album, genre });
+    const { title, artist, album, genre,url } = req.body;
+    console.log(req.body);
+    const newSong = new Song({ title, artist, album, genre,url });
     await newSong.save();
     res.status(201).json(newSong);
   } catch (error) {
@@ -25,10 +26,10 @@ export const createSong = async (req: Request, res: Response) => {
 export const updateSong = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, artist, album, genre } = req.body;
+    const { title, artist, album, genre,url } = req.body;
     const updatedSong = await Song.findByIdAndUpdate(
       id,
-      { title, artist, album, genre },
+      { title, artist, album, genre,url },
       { new: true }
     );
     if (!updatedSong) return res.status(404).json({ message: 'Song not found' });
