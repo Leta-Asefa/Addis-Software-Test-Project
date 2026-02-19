@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import store from './store/store';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import CreateSong from './pages/CreateSong';
@@ -47,11 +45,9 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Provider store={store}>
       <BrowserRouter>
         <AppContent />
       </BrowserRouter>
-    </Provider>
   );
 }
 
